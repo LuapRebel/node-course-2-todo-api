@@ -75,6 +75,18 @@ describe('GET /todos', () => {
 	});
 });
 
+describe('GET /users', () => {
+	it('should get all users', (done) => {
+		request(app)
+			.get('/users')
+			.expect(200)
+			.expect((res) => {
+				expect(res.body.users.length).toBeGreaterThan(0);
+			})
+			.end(done);
+	});
+});
+
 describe('GET /todos/:id', () => {
 	it('should return todo doc', (done) => {
 		request(app)
@@ -120,7 +132,7 @@ describe('DELETE /todos/:id', () => {
 				Todo.findById(hexId).then((todo) => {
 					expect(todo).toNotExist();
 					done();
-				}).catch((e) => done(e));				
+				}).catch((e) => done(e));
 			});
 	});
 
