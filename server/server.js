@@ -87,6 +87,19 @@ app.post('/users', (req, res) => {
 	});
 });
 
+// POST /users/login
+app.post('/users/login', (req, res) => {
+	var body = _.pick(req.body, ['email', 'password']);
+
+	User.findByCredentials(body.email, body.password).then((user) => {
+		user.generateAuthToken().then((token) => {
+			res.header('x-auth', token).send(user);
+		});
+	}).catch((e) => {
+		res.status(400).send();
+	});
+});
+
 //----------------------- DELETE ROUTES --------------------
 // DELETE /todos/:id
 app.delete('/todos/:id', (req, res) => {
